@@ -17,7 +17,7 @@ public class SequencerLauncher {
     static final String stateDir = "/tmp/kafka-streams/topic.model.sequencer";
     static final String applicationId = "topic.model.sequencer";
 
-    static final Logger logger = Logger.getLogger(MGM.class);
+    static final Logger logger = Logger.getLogger(SequencerLauncher.class);
     public static void main(String[] args) {
         BasicConfigurator.configure();
         final StreamConfig streamsConfiguration = new StreamConfig(applicationId, stateDir);
