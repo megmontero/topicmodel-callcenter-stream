@@ -19,7 +19,7 @@ public class PredicterLauncher {
     static final String inputTopic = "SEQUENCES.CALLS";
     static final String outputTopic = "TOPICS.CALLS";
     static final String applicationId = "topic.model.predicter";
-    static final String modelUrl = "http://tf-baja-model/v1/models/baja:predict";
+    static final String modelUrl = "http://tf-baja-model:8051/v1/models/baja:predict" ;//"http://tf-baja-model/v1/models/baja:predict";
 
     static final Logger logger = Logger.getLogger(PredicterLauncher.class);
     public static void main(String[] args) {
