@@ -46,6 +46,8 @@ public class StreamSequencer {
                             sequence.sequence[i] = sequenceList.get(i - start);
                         }
                     }
+                    sequence.call_timestamp = token.call_timestamp;
+                    sequence.call_text = token.call_text;
                     return sequence;
                 });
 

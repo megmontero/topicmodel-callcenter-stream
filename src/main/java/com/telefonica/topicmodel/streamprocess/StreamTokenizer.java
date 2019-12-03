@@ -31,6 +31,8 @@ public class StreamTokenizer {
             public PojosClasses.Token apply(PojosClasses.Call value) {
                 PojosClasses.Token token = new PojosClasses.Token();
                 token.tokens =  Tokenizer.tokenize(value.text);
+                token.call_timestamp = value.timestamp;
+                token.call_text = value.text;
                 return token;
             }
         });
