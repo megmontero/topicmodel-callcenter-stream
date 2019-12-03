@@ -1,5 +1,6 @@
 package com.telefonica.topicmodel.views;
 
+import com.telefonica.topicmodel.PredicterLauncher;
 import com.telefonica.topicmodel.config.StreamConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.common.utils.Bytes;
@@ -10,13 +11,17 @@ import org.apache.kafka.streams.kstream.Materialized;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
+import org.apache.log4j.Logger;
+
 public class VocabularyView {
     private final static String VOCABULARY_STORE= "vocabulary-store";
     private final ReadOnlyKeyValueStore<String, String> vocabularyView;
     static final String stateDir = "/tmp/kafka-streams/topic.model.view";
     static final String applicationId = "topic.model.vocabulary";
-
+    final Logger logger;
     public VocabularyView(String vocabularyTopic) {
+        logger = Logger.getLogger(VocabularyView.class);
+
         final StreamConfig streamsConfiguration = new StreamConfig(applicationId,stateDir);
         final StreamsBuilder builder = new StreamsBuilder();
         final GlobalKTable<String, String> vocabulary =  builder.globalTable(vocabularyTopic,
@@ -45,7 +50,13 @@ public class VocabularyView {
 
     public Integer get(String token)
     {
-        return Integer.parseInt(vocabularyView.get(token));
+
+        try {
+            return Integer.parseInt(vocabularyView.get(token));
+        } catch (NumberFormatException e) {
+            logger.warn("Token not found in vocabulary: " + token);
+            return null;
+        }
 
     }
 }
