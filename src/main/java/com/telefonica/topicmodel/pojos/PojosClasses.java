@@ -25,6 +25,7 @@ public class PojosClasses {
         public Float predictions[];
         public Long timestamp;
         public Long call_timestamp;
+        public String error;
     }
 
     static public class TfModelInput{
@@ -33,6 +34,7 @@ public class PojosClasses {
 
     static public  class TfModelOutput{
         public Float predictions[][];
+        public String error;
     }
 
 

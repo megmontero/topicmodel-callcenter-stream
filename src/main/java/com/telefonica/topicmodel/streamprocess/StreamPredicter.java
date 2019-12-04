@@ -35,7 +35,10 @@ public class StreamPredicter {
                     TfModelInput input =new TfModelInput();
                     input.instances = new Integer[][] {sequence.sequence};
                     TfModelOutput output = CallSeqPredictModel.call(modelUrl, input);
-                    topic.predictions = output.predictions[0];
+                    if (output.error== null)
+                        topic.predictions = output.predictions[0];
+                    else
+                        topic.error = output.error;
                     topic.call_text = sequence.call_text;
                     topic.call_timestamp = sequence.call_timestamp;
 

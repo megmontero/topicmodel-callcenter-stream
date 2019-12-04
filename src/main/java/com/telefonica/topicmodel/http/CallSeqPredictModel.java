@@ -31,7 +31,8 @@ public class CallSeqPredictModel {
             CloseableHttpResponse response = client.execute(httpPost);
             result = EntityUtils.toString(response.getEntity());
             output = mapper.readValue(result, PojosClasses.TfModelOutput.class);
-            logger.debug(output.predictions[0][0]);
+
+
         }
         catch (Exception e)
         {

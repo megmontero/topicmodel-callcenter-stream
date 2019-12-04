@@ -54,8 +54,8 @@ public class VocabularyView {
         try {
             return Integer.parseInt(vocabularyView.get(token));
         } catch (NumberFormatException e) {
-            logger.warn("Token not found in vocabulary: " + token);
-            return null;
+            logger.error("Token not found in vocabulary: " + token);
+            return 0;
         }
 
     }
