@@ -21,22 +21,23 @@ public class CallSeqPredictModel {
         TfModelOutput output = new TfModelOutput();
         output.predictions = new Float[][]{};
         ObjectMapper mapper = new ObjectMapper();
-
+        String json="", result="";
         try {
-            String json = mapper.writeValueAsString(input);
+            json = mapper.writeValueAsString(input);
             StringEntity entity = new StringEntity(json);
             httpPost.setEntity(entity);
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
-            ObjectMapper mapper2 = new ObjectMapper();
             CloseableHttpResponse response = client.execute(httpPost);
-            String result = EntityUtils.toString(response.getEntity());
+            result = EntityUtils.toString(response.getEntity());
             output = mapper.readValue(result, PojosClasses.TfModelOutput.class);
             logger.debug(output.predictions[0][0]);
         }
         catch (Exception e)
         {
-            logger.error(e.getMessage());
+            //logger.error(e.getMessage());
+            logger.error("peticion: " + json );
+            logger.error("respuesta: "+ result);
         }
         return output;
     }
