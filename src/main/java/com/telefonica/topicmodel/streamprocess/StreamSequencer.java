@@ -48,6 +48,11 @@ public class StreamSequencer {
                     }
                     sequence.call_timestamp = token.call_timestamp;
                     sequence.call_text = token.call_text;
+                    sequence.co_province = token.co_province;
+                    sequence.province = token.province;
+                    sequence.duration = token.duration;
+                    sequence.start_time = token.start_time;
+
                     return sequence;
                 });
 

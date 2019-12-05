@@ -33,6 +33,10 @@ public class StreamTokenizer {
                 token.tokens =  Tokenizer.tokenize(value.text);
                 token.call_timestamp = value.timestamp;
                 token.call_text = value.text;
+                token.co_province = value.co_province;
+                token.duration = value.duration;
+                token.province = value.province;
+                token.start_time = value.start_time;
                 return token;
             }
         });

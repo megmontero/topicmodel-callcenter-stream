@@ -41,6 +41,10 @@ public class StreamPredicter {
                         topic.error = output.error;
                     topic.call_text = sequence.call_text;
                     topic.call_timestamp = sequence.call_timestamp;
+                    topic.duration = sequence.duration;
+                    topic.co_province = sequence.co_province;
+                    topic.province = sequence.province;
+                    topic.start_time = sequence.start_time;
 
                     return topic;
                 }
