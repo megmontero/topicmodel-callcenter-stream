@@ -85,7 +85,7 @@ public class MGM {
             @Override
             public Token apply(Call value) {
                 Token token = new Token();
-                token.tokens =  Tokenizer.tokenize(value.text);
+                token.tokens =  Tokenizer.tokenize(value.call_text);
                 return token;
             }
         });
