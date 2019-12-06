@@ -27,6 +27,9 @@ public class PojosClasses {
      public static class  Topic extends  Commons{
         public Float predictions[];
         public String error;
+        public String model;
+        public String pred_type;
+        public Boolean control_success;
     }
 
     public static class TfModelInput{
