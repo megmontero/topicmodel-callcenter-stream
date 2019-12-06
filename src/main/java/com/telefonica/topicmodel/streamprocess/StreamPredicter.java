@@ -38,6 +38,7 @@ public class StreamPredicter {
         final KStream<String, Topic> topics = sequences.mapValues(
                 sequence -> {
                     ModelBajaFactura model = new ModelBajaFactura(sequence);
+                    logger.error("Sequence: " + sequence.sequence);
                     Topic topic = model.get_topic();
                     return topic;
                 }
