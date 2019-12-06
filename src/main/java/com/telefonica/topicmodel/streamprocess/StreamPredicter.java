@@ -14,6 +14,7 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
+import org.apache.log4j.Logger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -23,6 +24,9 @@ public class StreamPredicter {
     private static Serde<Sequence> sequenceSerde;
     private static Serde<Topic> topicSerde;
     private final static int seguenceLenght = 866;
+
+    static final Logger logger = Logger.getLogger(StreamPredicter.class);
+
     static public void create_stream(final StreamsBuilder builder, final String inputTopic,
                                      final String outputTopic, final String modelUrl)
     {
@@ -37,7 +41,10 @@ public class StreamPredicter {
                     input.instances = new Integer[][] {sequence.sequence};
                     TfModelOutput output = CallSeqPredictModel.call(modelUrl, input);
                     if (output.error== null)
-                        topic.predictions = output.predictions[0];
+                        if (output.predictions!= null)
+                            topic.predictions = output.predictions[0];
+                        else
+                            logger.error("HTTP errror");
                     else
                         topic.error = output.error;
                     PojosClasses.copy_commons(topic, sequence);
