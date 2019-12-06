@@ -5,11 +5,11 @@ public class PojosClasses {
     private static class Commons{
         public String call_text;
         public Long call_timestamp;
-        public String start_time;
         public String province;
         public String co_province;
         public Integer duration;
         public String co_verint;
+        public String control_type;
     }
 
 
@@ -51,7 +51,7 @@ public class PojosClasses {
         a.co_province = b.co_province;
         a.duration = b.duration;
         a.province = b.province;
-        a.start_time = b.start_time;
+        a.control_type = b.control_type;
         a.co_verint = b.co_verint;
     }
 
