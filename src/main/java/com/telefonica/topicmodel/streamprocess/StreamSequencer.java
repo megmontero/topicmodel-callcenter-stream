@@ -1,10 +1,10 @@
 package com.telefonica.topicmodel.streamprocess;
 
 
-import com.telefonica.topicmodel.pojos.PojosClasses;
+import com.telefonica.topicmodel.serdes.PojosClasses;
 import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
-import com.telefonica.topicmodel.views.VocabularyView;
+import com.telefonica.topicmodel.view.VocabularyView;
 import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;

@@ -1,7 +1,7 @@
 package com.telefonica.topicmodel.streamprocess;
 
 
-import com.telefonica.topicmodel.pojos.PojosClasses;
+import com.telefonica.topicmodel.serdes.PojosClasses;
 import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
 import org.apache.kafka.common.serialization.Deserializer;

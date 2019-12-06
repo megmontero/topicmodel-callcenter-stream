@@ -1,8 +1,7 @@
 package com.telefonica.topicmodel.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telefonica.topicmodel.PredicterLauncher;
-import com.telefonica.topicmodel.pojos.PojosClasses;
-import com.telefonica.topicmodel.pojos.PojosClasses.*;
+import com.telefonica.topicmodel.serdes.PojosClasses;
+import com.telefonica.topicmodel.serdes.PojosClasses.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;

@@ -2,8 +2,9 @@ package com.telefonica.topicmodel.streamprocess;
 
 
 import com.telefonica.topicmodel.http.CallSeqPredictModel;
-import com.telefonica.topicmodel.pojos.PojosClasses;
-import com.telefonica.topicmodel.pojos.PojosClasses.*;
+import com.telefonica.topicmodel.model.ModelBajaFactura;
+import com.telefonica.topicmodel.serdes.PojosClasses;
+import com.telefonica.topicmodel.serdes.PojosClasses.*;
 import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -28,7 +29,7 @@ public class StreamPredicter {
     static final Logger logger = Logger.getLogger(StreamPredicter.class);
 
     static public void create_stream(final StreamsBuilder builder, final String inputTopic,
-                                     final String outputTopic, final String modelUrl)
+                                     final String outputTopic)
     {
         initialize_serdes();
         KStream<String, Sequence> sequences = builder.stream(inputTopic, Consumed.with(Serdes.String(), sequenceSerde));
@@ -36,19 +37,8 @@ public class StreamPredicter {
 
         final KStream<String, Topic> topics = sequences.mapValues(
                 sequence -> {
-                    Topic topic = new Topic();
-                    TfModelInput input =new TfModelInput();
-                    input.instances = new Integer[][] {sequence.sequence};
-                    TfModelOutput output = CallSeqPredictModel.call(modelUrl, input);
-                    if (output.error== null)
-                        if (output.predictions!= null)
-                            topic.predictions = output.predictions[0];
-                        else
-                            logger.error("HTTP errror");
-                    else
-                        topic.error = output.error;
-                    PojosClasses.copy_commons(topic, sequence);
-
+                    ModelBajaFactura model = new ModelBajaFactura(sequence);
+                    Topic topic = model.get_topic();
                     return topic;
                 }
         );

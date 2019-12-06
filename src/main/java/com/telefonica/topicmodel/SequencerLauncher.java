@@ -2,13 +2,11 @@ package com.telefonica.topicmodel;
 
 import com.telefonica.topicmodel.config.StreamConfig;
 import com.telefonica.topicmodel.streamprocess.StreamSequencer;
-import com.telefonica.topicmodel.views.VocabularyView;
+import com.telefonica.topicmodel.view.VocabularyView;
 import org.apache.kafka.streams.KafkaStreams;
 import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
-
-import java.util.Properties;
 
 public class SequencerLauncher {
     static final String inputTopic = "TOKENS.CALLS";
