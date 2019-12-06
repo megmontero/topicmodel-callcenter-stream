@@ -2,6 +2,7 @@ package com.telefonica.topicmodel.streamprocess;
 
 
 import com.telefonica.topicmodel.http.CallSeqPredictModel;
+import com.telefonica.topicmodel.pojos.PojosClasses;
 import com.telefonica.topicmodel.pojos.PojosClasses.*;
 import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
@@ -39,12 +40,7 @@ public class StreamPredicter {
                         topic.predictions = output.predictions[0];
                     else
                         topic.error = output.error;
-                    topic.call_text = sequence.call_text;
-                    topic.call_timestamp = sequence.call_timestamp;
-                    topic.duration = sequence.duration;
-                    topic.co_province = sequence.co_province;
-                    topic.province = sequence.province;
-                    topic.start_time = sequence.start_time;
+                    PojosClasses.copy_commons(topic, sequence);
 
                     return topic;
                 }

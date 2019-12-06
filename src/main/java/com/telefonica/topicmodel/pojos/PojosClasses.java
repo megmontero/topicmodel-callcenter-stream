@@ -1,56 +1,58 @@
 package com.telefonica.topicmodel.pojos;
 
 public class PojosClasses {
-    static public class Call {
-        public String text;
-        public Long timestamp;
+
+    private static class Commons{
+        public String call_text;
+        public Long call_timestamp;
         public String start_time;
         public String province;
         public String co_province;
         public Integer duration;
+        public String co_verint;
     }
 
-    static public class Token {
-        public String call_text;
+
+    public static class Call extends Commons{
+        public Long timestamp;
+    }
+
+    public static class Token extends  Commons{
         public String tokens[];
         public Long timestamp;
-        public Long call_timestamp;
-        public String start_time;
-        public String province;
-        public String co_province;
-        public Integer duration;
     }
 
-    static public class Sequence{
-        public String call_text;
+    public static class Sequence extends  Commons{
         public Integer sequence[];
         public Long timestamp;
-        public Long call_timestamp;
-        public String start_time;
-        public String province;
-        public String co_province;
-        public Integer duration;
     }
 
-    static public class Topic{
-        public String call_text;
+     public static class  Topic extends  Commons{
         public Float predictions[];
         public Long timestamp;
-        public Long call_timestamp;
         public String error;
-        public String start_time;
-        public String province;
-        public String co_province;
-        public Integer duration;
     }
 
-    static public class TfModelInput{
+    public static class TfModelInput{
         public Integer instances[][];
     }
 
-    static public  class TfModelOutput{
+    public static class TfModelOutput{
         public Float predictions[][];
         public String error;
+    }
+
+
+    public static void copy_commons(Commons a, Commons b)
+    {
+        a.call_text = b.call_text;
+        a.call_timestamp = b.call_timestamp;
+        a.call_text = b.call_text;
+        a.co_province = b.co_province;
+        a.duration = b.duration;
+        a.province = b.province;
+        a.start_time = b.start_time;
+        a.co_verint = b.co_verint;
     }
 
 
