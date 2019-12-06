@@ -10,7 +10,7 @@ import com.telefonica.topicmodel.streamprocess.StreamTokenizer;
 public class TokenizerLauncher {
     static final String inputTopic = "CALLS";
     static final String outputTopic = "TOKENS.CALLS";
-    static final Logger logger = Logger.getLogger(MGM.class);
+    static final Logger logger = Logger.getLogger(TokenizerLauncher.class);
     static final String applicationId = "topic.model.tokenizer";
     public static void main(String[] args) {
         BasicConfigurator.configure();
