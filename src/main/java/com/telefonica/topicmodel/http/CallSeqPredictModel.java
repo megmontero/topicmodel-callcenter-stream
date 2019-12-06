@@ -30,6 +30,10 @@ public class CallSeqPredictModel {
             CloseableHttpResponse response = client.execute(httpPost);
             result = EntityUtils.toString(response.getEntity());
             output = mapper.readValue(result, PojosClasses.TfModelOutput.class);
+            if (output.error != null){
+                logger.error("return error peticion: " + json );
+                logger.error("return error respuesta: "+ result);
+            }
 
 
         }

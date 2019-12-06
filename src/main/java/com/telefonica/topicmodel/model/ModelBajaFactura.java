@@ -6,18 +6,18 @@ import com.telefonica.topicmodel.serdes.PojosClasses.*;
 import org.apache.log4j.Logger;
 
 public class ModelBajaFactura {
-    Sequence sequence;
+    private Sequence sequence;
     static final Logger logger = Logger.getLogger(ModelBajaFactura.class);
-    static final String modelUrl = "http://tf-baja-model:8501/v1/models/baja:predict" ;//"http://tf-baja-model/v1/models/baja:predict";
-    //static final String modelUrl =  "http://tf-baja-model/v1/models/baja:predict";
+    //static final String modelUrl = "http://tf-baja-model:8501/v1/models/baja:predict" ;//"http://tf-baja-model/v1/models/baja:predict";
+    static final String modelUrl =  "http://tf-baja-model/v1/models/baja:predict";
 
     static final String [] labels = {"Baja", "Factura", "Resto"};
     private TfModelInput input;
     private Topic topic;
     public ModelBajaFactura(Sequence s){
         this.sequence = s;
-        TfModelInput input =new TfModelInput();
-        input.instances = new Integer[][] {sequence.sequence};
+        input =new TfModelInput();
+        input.instances = new Integer[][] {this.sequence.sequence};
     }
 
     public Topic get_topic()
