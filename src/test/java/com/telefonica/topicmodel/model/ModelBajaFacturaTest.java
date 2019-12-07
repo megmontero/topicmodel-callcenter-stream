@@ -12,26 +12,55 @@ import org.powermock.core.classloader.annotations.PowerMockIgnore;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 import static org.mockito.Matchers.any;
 
 
 
 @PrepareForTest(CallSeqPredictModel.class)
-@PowerMockIgnore({"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.springframework.context.*", "org.apache.log4j.*"})
+@PowerMockIgnore({"org.apache.log4j.*"})
 public class ModelBajaFacturaTest extends PowerMockTestCase {
     static final String modelUrl =  "http://tf-baja-model/v1/models/baja:predict";
 
+    private Object[] testdata1()
+    {
+        Float[][] predictions = new Float[][]{{ new Float(0.6), new Float(0.2), new Float(0.2)}};
+        String expected = "Baja";
+        Object []data = new Object[] {predictions, expected};
+        return data;
+    }
+    private Object[] testdata2()
+    {
+        Float[][] predictions = new Float[][]{{ new Float(0.1), new Float(0.7), new Float(0.2)}};
+        String expected = "Factura";
+        Object []data = new Object[] {predictions, expected};
+        return data;
+    }
+    private Object[] testdata3()
+    {
+        Float[][] predictions = new Float[][]{{ new Float(0.1), new Float(0.4), new Float(0.5)}};
+        String expected = "Resto";
+        Object []data = new Object[] {predictions, expected};
+        return data;
+    }
 
-    @Test
-    public void modelBajaFacturaTest1() {
+
+    @DataProvider(name = "data-provider")
+    public Object[][] dataProviderMethod (){
+
+        return new Object[][]{testdata1(), testdata2(), testdata3()};
+
+    }
+
+    @Test(dataProvider = "data-provider")
+    public void modelBajaFacturaTest1(Float[][] predictions, String expected) {
 
         Sequence sequence = new Sequence();
         sequence.sequence = new Integer[]{0, 0, 2, 3, 4, 5, 1};
-        String expected = "Baja";
 
         TfModelOutput output = new TfModelOutput();
-        output.predictions = new Float[][]{{ new Float(0.6), new Float(0.2), new Float(0.2)}};
+        output.predictions = predictions;
 
         ModelBajaFactura model = new ModelBajaFactura(sequence);
 

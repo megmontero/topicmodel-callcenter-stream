@@ -12,20 +12,18 @@ public class SequencerLauncher {
     static final String inputTopic = "TOKENS.CALLS";
     static final String outputTopic = "SEQUENCES.CALLS";
     static final String vocabularyTopic = "TBL.VOCABULARY.CALLS";
-    static final String stateDir = "/tmp/kafka-streams/topic.model.sequencer";
     static final String applicationId = "topic.model.sequencer";
 
     static final Logger logger = Logger.getLogger(SequencerLauncher.class);
     public static void main(String[] args) {
         BasicConfigurator.configure();
-        final StreamConfig streamsConfiguration = new StreamConfig(applicationId, stateDir);
+        final StreamConfig streamsConfiguration = new StreamConfig(applicationId);
         final StreamsBuilder builder = new StreamsBuilder();
         VocabularyView vocabularyView = new VocabularyView(vocabularyTopic);
-        StreamSequencer.create_stream(builder,vocabularyView, inputTopic, outputTopic, vocabularyTopic);
+        StreamSequencer.create_stream(builder,vocabularyView, inputTopic, outputTopic);
 
 
         final KafkaStreams streams = new KafkaStreams(builder.build(), streamsConfiguration.get_properties());
-        //streams.cleanUp();
 
         // Now run the processing topology via `start()` to begin processing its input data.
         streams.start();

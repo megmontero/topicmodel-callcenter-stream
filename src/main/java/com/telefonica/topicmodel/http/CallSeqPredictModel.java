@@ -31,17 +31,17 @@ public class CallSeqPredictModel {
             result = EntityUtils.toString(response.getEntity());
             output = mapper.readValue(result, POJOClasses.TfModelOutput.class);
             if (output.error != null){
-                logger.error("return error peticion: " + json );
-                logger.error("return error respuesta: "+ result);
+                logger.error("Http return error peticion: " + json );
+                logger.error("Http return error respuesta: "+ result);
             }
 
 
         }
         catch (Exception e)
         {
-            //logger.error(e.getMessage());
-            logger.error("peticion: " + json );
-            logger.error("respuesta: "+ result);
+            logger.error(e.getMessage());
+            logger.error("Http request:  " + json );
+            logger.error("Http Response: "+ result);
         }
         return output;
     }

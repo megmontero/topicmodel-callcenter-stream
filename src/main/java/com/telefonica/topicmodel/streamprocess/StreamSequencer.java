@@ -1,6 +1,5 @@
 package com.telefonica.topicmodel.streamprocess;
 
-
 import com.telefonica.topicmodel.serdes.JsonPOJOSerdes;
 import com.telefonica.topicmodel.serdes.POJOClasses;
 import com.telefonica.topicmodel.serdes.POJOClasses.Sequence;
@@ -22,7 +21,7 @@ public class StreamSequencer {
     private static Serde<POJOClasses.Sequence> sequenceSerde;
     private final static int seguenceLenght = 866;
     static public void create_stream(final StreamsBuilder builder, final VocabularyView vocabularyView, final String inputTopic,
-                                     final String outputTopic, final String vocabularyTopic)
+                                     final String outputTopic)
     {
         tokenSerde= JsonPOJOSerdes.getObjectSerde(Token.class);
         sequenceSerde = JsonPOJOSerdes.getObjectSerde(Sequence.class);
