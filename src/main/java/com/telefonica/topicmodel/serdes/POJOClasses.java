@@ -1,6 +1,6 @@
 package com.telefonica.topicmodel.serdes;
 
-public class PojosClasses {
+public class POJOClasses {
 
     private static class Commons{
         public String call_text;

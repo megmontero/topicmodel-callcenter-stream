@@ -1,7 +1,7 @@
 package com.telefonica.topicmodel.streamprocess;
 
-import com.telefonica.topicmodel.serdes.PojoSerdes;
-import com.telefonica.topicmodel.serdes.PojosClasses;
+import com.telefonica.topicmodel.serdes.JsonPOJOSerdes;
+import com.telefonica.topicmodel.serdes.POJOClasses;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -11,7 +11,6 @@ import org.apache.kafka.streams.StreamsConfig;
 import org.apache.kafka.streams.TopologyTestDriver;
 import org.apache.kafka.streams.test.ConsumerRecordFactory;
 import org.testng.Assert;
-import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import java.util.Properties;
 
@@ -20,8 +19,8 @@ public class StreamTokenizerTest {
     final static String applicationId = "StreamTokenizerTest";
     static final String inputTopic = "CALLS";
     static final String outputTopic = "TOKENS.CALLS";
-    private static Serde<PojosClasses.Token> tokenSerde;
-    private static  Serde<PojosClasses.Call> callSerde;
+    private static Serde<POJOClasses.Token> tokenSerde;
+    private static  Serde<POJOClasses.Call> callSerde;
     //static final Logger logger = Logger.getLogger(StreamTokenizerTest.class);
     private Properties config;
 
@@ -31,8 +30,8 @@ public class StreamTokenizerTest {
         config = new Properties();
         config.put(StreamsConfig.APPLICATION_ID_CONFIG, applicationId);
         config.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "dummy:1234");
-        callSerde =  PojoSerdes.getObjectSerde(PojosClasses.Call.class);
-        tokenSerde = PojoSerdes.getObjectSerde(PojosClasses.Token.class);
+        callSerde =  JsonPOJOSerdes.getObjectSerde(POJOClasses.Call.class);
+        tokenSerde = JsonPOJOSerdes.getObjectSerde(POJOClasses.Token.class);
 
     }
     @Test
@@ -44,12 +43,12 @@ public class StreamTokenizerTest {
 
         final TopologyTestDriver streams = new TopologyTestDriver(builder.build(), config);
 
-        ConsumerRecordFactory<String, PojosClasses.Call> factory = new ConsumerRecordFactory<String, PojosClasses.Call>(
+        ConsumerRecordFactory<String, POJOClasses.Call> factory = new ConsumerRecordFactory<String, POJOClasses.Call>(
                 new StringSerializer(),
                 callSerde.serializer()
         );
         /*Test call*/
-        PojosClasses.Call call = new PojosClasses.Call();
+        POJOClasses.Call call = new POJOClasses.Call();
         call.call_text = "Buenos dias prueba de llamada mil cuatro";
         call.co_verint = "9867384343";
         call.co_province = "ES-CO";
@@ -62,13 +61,13 @@ public class StreamTokenizerTest {
 
         streams.pipeInput(factory.create(inputTopic, call.co_verint, call));
 
-        ProducerRecord<String, PojosClasses.Token> outputRecord = streams.readOutput(
+        ProducerRecord<String, POJOClasses.Token> outputRecord = streams.readOutput(
                 outputTopic,
                 new StringDeserializer(),
                 tokenSerde.deserializer()
         );
 
-        PojosClasses.Token t = outputRecord.value();
+        POJOClasses.Token t = outputRecord.value();
         //logger.info("Tokens: " + Arrays.toString(t.tokens));
         streams.close();
         //OutputVerifier.compareKeyValue(outputRecord, expected.co_verint, expected);

@@ -2,10 +2,10 @@ package com.telefonica.topicmodel.model;
 
 
 import com.telefonica.topicmodel.http.CallSeqPredictModel;
-import com.telefonica.topicmodel.serdes.PojosClasses.Sequence;
-import com.telefonica.topicmodel.serdes.PojosClasses.TfModelInput;
-import com.telefonica.topicmodel.serdes.PojosClasses.TfModelOutput;
-import com.telefonica.topicmodel.serdes.PojosClasses.Topic;
+import com.telefonica.topicmodel.serdes.POJOClasses.Sequence;
+import com.telefonica.topicmodel.serdes.POJOClasses.TfModelInput;
+import com.telefonica.topicmodel.serdes.POJOClasses.TfModelOutput;
+import com.telefonica.topicmodel.serdes.POJOClasses.Topic;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;

@@ -8,7 +8,7 @@ import org.apache.kafka.common.serialization.Serializer;
 import java.util.HashMap;
 import java.util.Map;
 
-public class PojoSerdes {
+public class JsonPOJOSerdes {
 
     public void masa() {
 

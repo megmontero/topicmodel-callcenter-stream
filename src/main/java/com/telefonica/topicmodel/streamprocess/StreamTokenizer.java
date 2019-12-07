@@ -1,7 +1,9 @@
 package com.telefonica.topicmodel.streamprocess;
 
 import com.telefonica.topicmodel.nlp.Tokenizer;
-import com.telefonica.topicmodel.serdes.PojosClasses;
+import com.telefonica.topicmodel.serdes.JsonPOJOSerdes;
+import com.telefonica.topicmodel.serdes.POJOClasses;
+import com.telefonica.topicmodel.serdes.POJOClasses.*;
 import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
 import org.apache.kafka.common.serialization.Deserializer;
@@ -18,49 +20,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class StreamTokenizer {
-    private static Serde<PojosClasses.Token> tokenSerde;
-    private static  Serde<PojosClasses.Call> callSerde;
+    private static Serde<Token> tokenSerde;
+    private static  Serde<Call> callSerde;
     static public void create_stream(final StreamsBuilder builder, final String inputTopic, final String outputTopic)
     {
-        initialize_serdes();
-        KStream<String, PojosClasses.Call> calls = builder.stream(inputTopic, Consumed.with(Serdes.String(), callSerde));
+        tokenSerde = JsonPOJOSerdes.getObjectSerde(Token.class);
+        callSerde = JsonPOJOSerdes.getObjectSerde(Call.class);
+        KStream<String, Call> calls = builder.stream(inputTopic, Consumed.with(Serdes.String(), callSerde));
 
 
-        KStream<String, PojosClasses.Token> tokens = calls.mapValues(new ValueMapper<PojosClasses.Call, PojosClasses.Token>(){
-            @Override
-            public PojosClasses.Token apply(PojosClasses.Call value) {
-                PojosClasses.Token token = new PojosClasses.Token();
-                token.tokens =  Tokenizer.tokenize(value.call_text);
-                PojosClasses.copy_commons(token, value);
-                return token;
-            }
+        KStream<String, Token> tokens = calls.mapValues(value -> {
+            Token token = new Token();
+            token.tokens =  Tokenizer.tokenize(value.call_text);
+            POJOClasses.copy_commons(token, value);
+            return token;
         });
 
         tokens.to(outputTopic, Produced.with(Serdes.String(), tokenSerde));
     }
 
 
-    static private void initialize_serdes()
-    {
-        Map<String, Object> serdeProps = new HashMap<>();
-        /*Calls serdes*/
-        final Serializer<PojosClasses.Call> callSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Call.class);
-        callSerializer.configure(serdeProps, false);
-
-        final Deserializer<PojosClasses.Call> callDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Call.class);
-        callDeserializer.configure(serdeProps, false);
-        callSerde = Serdes.serdeFrom(callSerializer, callDeserializer);
-
-        /*Tokens Serdes*/
-        final Serializer<PojosClasses.Token> tokenSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Token.class);
-        tokenSerializer.configure(serdeProps, false);
-
-        final Deserializer<PojosClasses.Token> tokenDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Token.class);
-        tokenDeserializer.configure(serdeProps, false);
-        tokenSerde = Serdes.serdeFrom(tokenSerializer, tokenDeserializer);
-    }
 }

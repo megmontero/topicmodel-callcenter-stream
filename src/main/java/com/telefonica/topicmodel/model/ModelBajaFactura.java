@@ -1,8 +1,7 @@
 package com.telefonica.topicmodel.model;
-import com.telefonica.topicmodel.PredicterLauncher;
 import com.telefonica.topicmodel.http.CallSeqPredictModel;
-import com.telefonica.topicmodel.serdes.PojosClasses;
-import com.telefonica.topicmodel.serdes.PojosClasses.*;
+import com.telefonica.topicmodel.serdes.POJOClasses;
+import com.telefonica.topicmodel.serdes.POJOClasses.*;
 import org.apache.log4j.Logger;
 
 import java.util.Arrays;
@@ -27,7 +26,7 @@ public class ModelBajaFactura {
     {
         topic = new Topic();
         topic.model = modelId;
-        PojosClasses.copy_commons(topic, sequence);
+        POJOClasses.copy_commons(topic, sequence);
         TfModelOutput output = CallSeqPredictModel.call(modelUrl, input);
         if (output.error== null)
             if (output.predictions!= null && output.predictions.length >0) {

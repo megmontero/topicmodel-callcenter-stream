@@ -1,37 +1,37 @@
 package com.telefonica.topicmodel.streamprocess;
 
 
-import com.telefonica.topicmodel.serdes.PojosClasses;
-import com.telefonica.topicmodel.serdes.JsonPOJODeserializer;
-import com.telefonica.topicmodel.serdes.JsonPOJOSerializer;
+import com.telefonica.topicmodel.serdes.JsonPOJOSerdes;
+import com.telefonica.topicmodel.serdes.POJOClasses;
+import com.telefonica.topicmodel.serdes.POJOClasses.Sequence;
+import com.telefonica.topicmodel.serdes.POJOClasses.Token;
 import com.telefonica.topicmodel.view.VocabularyView;
-import org.apache.kafka.common.serialization.Deserializer;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.Serdes;
-import org.apache.kafka.common.serialization.Serializer;
 import org.apache.kafka.streams.StreamsBuilder;
-import org.apache.kafka.streams.kstream.*;
+import org.apache.kafka.streams.kstream.Consumed;
+import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.Produced;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class StreamSequencer {
-    private static Serde<PojosClasses.Token> tokenSerde;
-    private static Serde<PojosClasses.Sequence> sequenceSerde;
+    private static Serde<POJOClasses.Token> tokenSerde;
+    private static Serde<POJOClasses.Sequence> sequenceSerde;
     private final static int seguenceLenght = 866;
     static public void create_stream(final StreamsBuilder builder, final VocabularyView vocabularyView, final String inputTopic,
                                      final String outputTopic, final String vocabularyTopic)
     {
-        initialize_serdes();
-        KStream<String, PojosClasses.Token> tokens = builder.stream(inputTopic, Consumed.with(Serdes.String(), tokenSerde));
+        tokenSerde= JsonPOJOSerdes.getObjectSerde(Token.class);
+        sequenceSerde = JsonPOJOSerdes.getObjectSerde(Sequence.class);
+        KStream<String, Token> tokens = builder.stream(inputTopic, Consumed.with(Serdes.String(), tokenSerde));
 
-        final KStream<String, PojosClasses.Sequence> sequences = tokens.mapValues(
+        final KStream<String, Sequence> sequences = tokens.mapValues(
                 token -> {
 
-                    PojosClasses.Sequence sequence = new PojosClasses.Sequence();
+                    Sequence sequence = new Sequence();
                     if (token.tokens != null) {
                         List<Integer> sequenceList = Arrays.asList(token.tokens).stream().map(tkn -> {
                             return vocabularyView.get(tkn);
@@ -46,7 +46,7 @@ public class StreamSequencer {
                             sequence.sequence[i] = sequenceList.get(i - start);
                         }
                     }
-                    PojosClasses.copy_commons(sequence,token);
+                    POJOClasses.copy_commons(sequence,token);
 
                     return sequence;
                 });
@@ -55,29 +55,4 @@ public class StreamSequencer {
     }
 
 
-    static private void initialize_serdes()
-    {
-        Map<String, Object> serdeProps = new HashMap<>();
-
-
-        /*Tokens Serdes*/
-        final Serializer<PojosClasses.Token> tokenSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Token.class);
-        tokenSerializer.configure(serdeProps, false);
-
-        final Deserializer<PojosClasses.Token> tokenDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Token.class);
-        tokenDeserializer.configure(serdeProps, false);
-        tokenSerde = Serdes.serdeFrom(tokenSerializer, tokenDeserializer);
-
-        /*Sequence Serdes*/
-        final Serializer<PojosClasses.Sequence> sequenceSerializer = new JsonPOJOSerializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Sequence.class);
-        sequenceSerializer.configure(serdeProps, false);
-
-        final Deserializer<PojosClasses.Sequence> sequenceDeserializer = new JsonPOJODeserializer<>();
-        serdeProps.put("JsonPOJOClass", PojosClasses.Sequence.class);
-        sequenceDeserializer.configure(serdeProps, false);
-        sequenceSerde = Serdes.serdeFrom(sequenceSerializer, sequenceDeserializer);
-    }
 }

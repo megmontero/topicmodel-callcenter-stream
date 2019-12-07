@@ -1,7 +1,7 @@
 package com.telefonica.topicmodel.http;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.telefonica.topicmodel.serdes.PojosClasses;
-import com.telefonica.topicmodel.serdes.PojosClasses.*;
+import com.telefonica.topicmodel.serdes.POJOClasses;
+import com.telefonica.topicmodel.serdes.POJOClasses.*;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
@@ -29,7 +29,7 @@ public class CallSeqPredictModel {
             httpPost.setHeader("Content-type", "application/json");
             CloseableHttpResponse response = client.execute(httpPost);
             result = EntityUtils.toString(response.getEntity());
-            output = mapper.readValue(result, PojosClasses.TfModelOutput.class);
+            output = mapper.readValue(result, POJOClasses.TfModelOutput.class);
             if (output.error != null){
                 logger.error("return error peticion: " + json );
                 logger.error("return error respuesta: "+ result);
