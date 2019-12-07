@@ -27,7 +27,7 @@ public class StreamConfig {
         streamsConfiguration.put("sasl.mechanism",
                 config.getString("kafkaClient.saslMechanism"));
         streamsConfiguration.put("sasl.jaas.config",
-                config.getString("saslJaas"));
+                config.getString("kafkaClient.saslJaas"));
 
 
 
