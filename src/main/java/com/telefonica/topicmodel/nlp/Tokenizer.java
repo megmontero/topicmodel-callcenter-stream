@@ -1,8 +1,7 @@
 package com.telefonica.topicmodel.nlp;
+
 import java.text.Normalizer;
 import java.util.Arrays;
-
-import com.telefonica.topicmodel.nlp.CommonWords;
 
 public class  Tokenizer {
 

@@ -35,7 +35,7 @@ public class ModelBajaFactura {
                 format_prediction();
             }
             else
-                logger.error("HTTP errror or not predictions");
+                logger.error("HTTP error or not predictions");
         else
             topic.error = output.error;
 
