@@ -7,6 +7,8 @@ import com.telefonica.topicmodel.serdes.POJOClasses.TfModelInput;
 import com.telefonica.topicmodel.serdes.POJOClasses.TfModelOutput;
 import com.telefonica.topicmodel.serdes.POJOClasses.Topic;
 import com.telefonica.topicmodel.view.VocabularyView;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -27,6 +29,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -43,7 +46,10 @@ public class StreamPredicterTest  extends PowerMockTestCase {
     private static  Serde<Sequence> sequenceSerde;
     static final Logger logger = Logger.getLogger(StreamPredicterTest.class);
     private Properties config;
-
+    static Config configApp = ConfigFactory.load();
+    static final String modelUrl =  "dummy";
+    static final String modelId =  "dummy";
+    static final List<String> labels = configApp.getStringList("modelBajaFactura.modelLabels");
 
 
 
@@ -118,7 +124,7 @@ public class StreamPredicterTest  extends PowerMockTestCase {
 
         when(vocabularyView.get(any(String.class))).thenReturn(1);
 
-        StreamPredicter.create_stream(builder, inputTopic, outputTopic);
+        StreamPredicter.create_stream(builder, inputTopic, outputTopic, modelUrl, modelId,labels);
 
         final TopologyTestDriver streams = new TopologyTestDriver(builder.build(), config);
 

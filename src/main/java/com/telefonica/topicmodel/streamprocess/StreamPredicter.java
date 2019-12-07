@@ -17,18 +17,18 @@ import org.apache.kafka.streams.kstream.Produced;
 import org.apache.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StreamPredicter {
 
     private static Serde<Sequence> sequenceSerde;
     private static Serde<Topic> topicSerde;
-    private final static int seguenceLenght = 866;
 
     static final Logger logger = Logger.getLogger(StreamPredicter.class);
 
     static public void create_stream(final StreamsBuilder builder, final String inputTopic,
-                                     final String outputTopic)
+                                     final String outputTopic, String  modelUrl, String modelId, List<String> labels)
     {
         sequenceSerde = JsonPOJOSerdes.getObjectSerde(Sequence.class);
         topicSerde = JsonPOJOSerdes.getObjectSerde(Topic.class);
@@ -37,7 +37,7 @@ public class StreamPredicter {
 
         final KStream<String, Topic> topics = sequences.mapValues(
                 sequence -> {
-                    ModelBajaFactura model = new ModelBajaFactura(sequence);
+                    ModelBajaFactura model = new ModelBajaFactura(sequence, modelUrl, modelId, labels);
                     Topic topic = model.get_topic();
                     return topic;
                 }

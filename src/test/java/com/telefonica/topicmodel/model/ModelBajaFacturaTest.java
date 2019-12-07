@@ -6,6 +6,8 @@ import com.telefonica.topicmodel.serdes.POJOClasses.Sequence;
 import com.telefonica.topicmodel.serdes.POJOClasses.TfModelInput;
 import com.telefonica.topicmodel.serdes.POJOClasses.TfModelOutput;
 import com.telefonica.topicmodel.serdes.POJOClasses.Topic;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PowerMockIgnore;
@@ -14,6 +16,9 @@ import org.powermock.modules.testng.PowerMockTestCase;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
+
+import java.util.List;
+
 import static org.mockito.Matchers.any;
 
 
@@ -21,7 +26,10 @@ import static org.mockito.Matchers.any;
 @PrepareForTest(CallSeqPredictModel.class)
 @PowerMockIgnore({"org.apache.log4j.*"})
 public class ModelBajaFacturaTest extends PowerMockTestCase {
-    static final String modelUrl =  "http://tf-baja-model/v1/models/baja:predict";
+    static Config config = ConfigFactory.load();
+    static final String modelUrl =  "dummy";
+    static final String modelId =  "dummy";
+    static final List<String> labels = config.getStringList("modelBajaFactura.modelLabels");
 
     private Object[] testdata1()
     {
@@ -62,7 +70,7 @@ public class ModelBajaFacturaTest extends PowerMockTestCase {
         TfModelOutput output = new TfModelOutput();
         output.predictions = predictions;
 
-        ModelBajaFactura model = new ModelBajaFactura(sequence);
+        ModelBajaFactura model = new ModelBajaFactura(sequence,modelUrl, modelId, labels);
 
         PowerMockito.mockStatic(CallSeqPredictModel.class);
         Mockito.when(CallSeqPredictModel.call(any(String.class), any(TfModelInput.class))).thenReturn(output);

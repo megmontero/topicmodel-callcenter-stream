@@ -3,6 +3,8 @@ package com.telefonica.topicmodel.streamprocess;
 import com.telefonica.topicmodel.serdes.JsonPOJOSerdes;
 import com.telefonica.topicmodel.serdes.POJOClasses.*;
 import com.telefonica.topicmodel.view.VocabularyView;
+import com.typesafe.config.Config;
+import com.typesafe.config.ConfigFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.Serde;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -25,12 +27,13 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 public class StreamSequencerTest {
+    static Config configApp = ConfigFactory.load();
     static final String inputTopic = "TOKENS.CALLS";
     static final String outputTopic = "SEQUENCES.CALLS";
     static final String applicationId = "StreamSequencerTest";
     private static Serde<Token> tokenSerde;
     private static  Serde<Sequence> sequenceSerde;
-    private final static int seguenceLenght = 866;
+    private final static int seguenceLenght = configApp.getInt("sequencer.sequenceLenght");
     static final Logger logger = Logger.getLogger(StreamSequencerTest.class);
     private Properties config;
 
@@ -52,7 +55,7 @@ public class StreamSequencerTest {
 
     private Object[] testdata2()
     {
-        String []tokens = new String[866];
+        String []tokens = new String[seguenceLenght];
         java.util.Arrays.fill(tokens, 0, tokens.length, "prueba");
         Object []data = new Object[] {tokens};
         return data;
@@ -75,7 +78,7 @@ public class StreamSequencerTest {
 
         when(vocabularyView.get(any(String.class))).thenReturn(1);
 
-        StreamSequencer.create_stream(builder,vocabularyView, inputTopic, outputTopic);
+        StreamSequencer.create_stream(builder,vocabularyView, inputTopic, outputTopic, seguenceLenght);
 
         final TopologyTestDriver streams = new TopologyTestDriver(builder.build(), config);
 

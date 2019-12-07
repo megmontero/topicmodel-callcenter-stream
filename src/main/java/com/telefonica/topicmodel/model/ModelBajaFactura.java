@@ -10,16 +10,18 @@ import java.util.List;
 public class ModelBajaFactura {
     private Sequence sequence;
     static final Logger logger = Logger.getLogger(ModelBajaFactura.class);
-    //static final String modelUrl = "http://tf-baja-model:8501/v1/models/baja:predict" ;//"http://tf-baja-model/v1/models/baja:predict";
-    static final String modelUrl =  "http://tf-baja-model/v1/models/baja:predict";
-    static final String modelId = "bajafactura";
-    static final String [] labels = {"Baja", "Factura", "Resto"};
+    private final String modelUrl;
+    private final String modelId;
+    private final List<String> labels;
     private TfModelInput input;
     private Topic topic;
-    public ModelBajaFactura(Sequence s){
+    public ModelBajaFactura(Sequence s,String  modelUrl, String modelId, List<String> labels){
         this.sequence = s;
         input =new TfModelInput();
         input.instances = new Integer[][] {this.sequence.sequence};
+        this.modelUrl = modelUrl;
+        this.modelId = modelId;
+        this.labels = labels;
     }
 
     public Topic get_topic()
@@ -48,10 +50,9 @@ public class ModelBajaFactura {
 
         int pred_class_idx =  maximum_index(topic.predictions);
         String true_type;
-        topic.pred_type = labels[pred_class_idx];
-        List<String> model_labels = Arrays.asList(labels);
+        topic.pred_type = labels.get(pred_class_idx);
         if (topic.control_type != null){
-            true_type = (model_labels.contains(topic.control_type))?  topic.control_type : "Resto";
+            true_type = (labels.contains(topic.control_type))?  topic.control_type : "Resto";
             topic.control_success = true_type.equalsIgnoreCase(topic.pred_type);
         }
 

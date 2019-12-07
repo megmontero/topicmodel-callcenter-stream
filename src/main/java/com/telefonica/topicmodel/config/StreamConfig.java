@@ -1,5 +1,7 @@
 package com.telefonica.topicmodel.config;
 
+import com.typesafe.config.ConfigFactory;
+import com.typesafe.config.Config;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
@@ -7,30 +9,26 @@ import org.apache.kafka.streams.StreamsConfig;
 import java.util.Properties;
 
 public class StreamConfig {
+    final private Config config = ConfigFactory.load();
     final private Properties streamsConfiguration;
     public StreamConfig(String applicationId){
         streamsConfiguration = new Properties();
-        // Give the Streams application a unique name.  The name must be unique in the Kafka cluster
-        // against which the application is run.
+
         streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, applicationId);
         streamsConfiguration.put(StreamsConfig.CLIENT_ID_CONFIG, applicationId);
-        // Where to find Kafka broker(s).
-        streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "kfk1 :9093,kfk2 :9093,kfk3 :9093");
-        //streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9093");
+        streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
+                config.getString("kafkaClient.bootstrapServers"));
         // Specify default (de)serializers for record keys and for record values.
         streamsConfiguration.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
         streamsConfiguration.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
-        // Records should be flushed every 10 seconds. This is less than the default
-        // in order to keep this example interactive.
-        streamsConfiguration.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 10 * 1000);
-        // For illustrative purposes we disable record caches.
-        streamsConfiguration.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
-        // Use a temporary directory for storing state, which will be automatically removed after the test.
-        //streamsConfiguration.put(StreamsConfig.STATE_DIR_CONFIG, TestUtils.tempDirectory().getAbsolutePath());
-        //MGM
-        streamsConfiguration.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG, "SASL_PLAINTEXT");
-        streamsConfiguration.put("sasl.mechanism", "SCRAM-SHA-256");
-        streamsConfiguration.put("sasl.jaas.config", "org.apache.kafka.common.security.scram.ScramLoginModule required username=\"topic_model\" password=\"password\";");
+
+        streamsConfiguration.put(StreamsConfig.SECURITY_PROTOCOL_CONFIG,
+                config.getString("kafkaClient.securityProtocol"));
+        streamsConfiguration.put("sasl.mechanism",
+                config.getString("kafkaClient.saslMechanism"));
+        streamsConfiguration.put("sasl.jaas.config",
+                config.getString("saslJaas"));
+
 
 
     }

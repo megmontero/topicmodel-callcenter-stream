@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 public class StreamSequencer {
     private static Serde<POJOClasses.Token> tokenSerde;
     private static Serde<POJOClasses.Sequence> sequenceSerde;
-    private final static int seguenceLenght = 866;
+
     static public void create_stream(final StreamsBuilder builder, final VocabularyView vocabularyView, final String inputTopic,
-                                     final String outputTopic)
+                                     final String outputTopic, int seguenceLenght)
     {
         tokenSerde= JsonPOJOSerdes.getObjectSerde(Token.class);
         sequenceSerde = JsonPOJOSerdes.getObjectSerde(Sequence.class);
