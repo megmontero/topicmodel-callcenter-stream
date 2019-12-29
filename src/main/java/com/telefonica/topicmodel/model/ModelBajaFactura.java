@@ -3,10 +3,11 @@ import com.telefonica.topicmodel.http.CallSeqPredictModel;
 import com.telefonica.topicmodel.serdes.POJOClasses;
 import com.telefonica.topicmodel.serdes.POJOClasses.*;
 import org.apache.log4j.Logger;
-
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Class for use Tensoflow Serving Model BajaFactura.
+ */
 public class ModelBajaFactura {
     private Sequence sequence;
     static final Logger logger = Logger.getLogger(ModelBajaFactura.class);
@@ -15,6 +16,14 @@ public class ModelBajaFactura {
     private final List<String> labels;
     private TfModelInput input;
     private Topic topic;
+
+    /**
+     * Constructor of ModelBajaFactura
+     * @param s sequence to predict.
+     * @param modelUrl URL of Tensoflow Serving service.
+     * @param modelId ID of model.
+     * @param labels List of labels model classify.
+     */
     public ModelBajaFactura(Sequence s,String  modelUrl, String modelId, List<String> labels){
         this.sequence = s;
         input =new TfModelInput();
@@ -24,6 +33,10 @@ public class ModelBajaFactura {
         this.labels = labels;
     }
 
+    /**
+     * Do http request to Tensorflow serving model and use output.
+     * @return TOPIC POJO class.
+     */
     public Topic get_topic()
     {
         topic = new Topic();
@@ -44,7 +57,9 @@ public class ModelBajaFactura {
         return topic;
     }
 
-
+    /**
+     * Format prediction with label.
+     */
     private void format_prediction()
     {
 
@@ -59,6 +74,12 @@ public class ModelBajaFactura {
 
 
     }
+
+    /**
+     * Method to get index with max value of array.
+     * @param a Float array.
+     * @return Index of max value.
+     */
     private int maximum_index(Float a[])
     {
         Float maximum;

@@ -11,6 +11,9 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 
+/**
+ * Laucher of microservice Sequencer. (without two KStreams)
+ */
 public class SequencerLauncherNew {
 
     static Config config = ConfigFactory.load();
@@ -21,6 +24,11 @@ public class SequencerLauncherNew {
     private final static int seguenceLenght = config.getInt("sequencer.sequenceLenght");
 
     static final Logger logger = Logger.getLogger(SequencerLauncherNew.class);
+
+    /**
+     * main class to start microservice Sequencer
+     * @param args
+     */
     public static void main(String[] args) {
         BasicConfigurator.configure();
         final StreamConfig streamsConfiguration = new StreamConfig(applicationId);

@@ -22,7 +22,6 @@ import java.util.List;
 import static org.mockito.Matchers.any;
 
 
-
 @PrepareForTest(CallSeqPredictModel.class)
 @PowerMockIgnore({"org.apache.log4j.*"})
 public class ModelBajaFacturaTest extends PowerMockTestCase {

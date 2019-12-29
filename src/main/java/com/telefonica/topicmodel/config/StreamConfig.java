@@ -2,15 +2,22 @@ package com.telefonica.topicmodel.config;
 
 import com.typesafe.config.ConfigFactory;
 import com.typesafe.config.Config;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
-
 import java.util.Properties;
 
+
+/**
+ * Class for config Kafka Streams
+ */
 public class StreamConfig {
     final private Config config = ConfigFactory.load();
     final private Properties streamsConfiguration;
+
+    /**
+     * Constructor of StreamConfig
+     * @param applicationId Id of Stream application.
+     */
     public StreamConfig(String applicationId){
         streamsConfiguration = new Properties();
 
@@ -33,12 +40,21 @@ public class StreamConfig {
 
     }
 
+    /**
+     * Constructor with stateDir.
+     * @param applicationId Id of application.
+     * @param stateDir Dir to store state.
+     */
     public StreamConfig(String applicationId, String stateDir){
         this(applicationId);
         streamsConfiguration.put("state.dir", stateDir);
 
     }
 
+    /**
+     * Get stream properties
+     * @return Properties of streams.
+     */
     public Properties get_properties(){
         return streamsConfiguration;
     }

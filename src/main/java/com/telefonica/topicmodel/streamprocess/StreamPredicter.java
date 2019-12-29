@@ -15,11 +15,11 @@ import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
 import org.apache.log4j.Logger;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Stream for predict call topic from Sequence.
+ */
 public class StreamPredicter {
 
     private static Serde<Sequence> sequenceSerde;
@@ -27,6 +27,16 @@ public class StreamPredicter {
 
     static final Logger logger = Logger.getLogger(StreamPredicter.class);
 
+    /**
+     * Create stream for predict call topic from Sequence.
+     * Read sequence from input topic and write it on output topic.
+     * @param builder Stream Builder
+     * @param inputTopic Kafka Input Topic.
+     * @param outputTopic Kafka output Topic.
+     * @param modelUrl URL of tensorflow serving model.
+     * @param modelId ID of model.
+     * @param labels List of model labels.
+     */
     static public void create_stream(final StreamsBuilder builder, final String inputTopic,
                                      final String outputTopic, String  modelUrl, String modelId, List<String> labels)
     {

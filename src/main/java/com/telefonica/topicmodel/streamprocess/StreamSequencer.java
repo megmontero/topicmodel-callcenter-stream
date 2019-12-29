@@ -16,10 +16,21 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Stream to get Sequence from list of tokens and with vocabulary.
+ */
 public class StreamSequencer {
     private static Serde<POJOClasses.Token> tokenSerde;
     private static Serde<POJOClasses.Sequence> sequenceSerde;
 
+    /**
+     * Create stream for get sequence from Tokens topics.
+     * @param builder Stream builder
+     * @param vocabularyView Vocabulary dict with if of each word.
+     * @param inputTopic Tokens topic.
+     * @param outputTopic Sequence topic.
+     * @param seguenceLenght Sequence Lenght.
+     */
     static public void create_stream(final StreamsBuilder builder, final VocabularyView vocabularyView, final String inputTopic,
                                      final String outputTopic, int seguenceLenght)
     {

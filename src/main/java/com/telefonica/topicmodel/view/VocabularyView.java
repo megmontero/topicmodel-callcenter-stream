@@ -12,12 +12,22 @@ import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
 import org.apache.log4j.Logger;
 
+
+/**
+ * Class to create a KTable with vocabulary.
+ * Vocabulary is a dict with a ID for each word.
+ */
 public class VocabularyView {
     private final static String VOCABULARY_STORE= "vocabulary-store";
     private final ReadOnlyKeyValueStore<String, String> vocabularyView;
     static final String stateDir = "/tmp/kafka-streams/topic.model.view";
     static final String applicationId = "topic.model.vocabulary";
     final Logger logger;
+
+    /**
+     * Constructor to create GlobalKTable
+     * @param vocabularyTopic Topic of vocabulary.
+     */
     public VocabularyView(String vocabularyTopic) {
         logger = Logger.getLogger(VocabularyView.class);
 
@@ -47,6 +57,11 @@ public class VocabularyView {
         }
     }
 
+    /**
+     * Method to get ID of a token.
+     * @param token Token to get ID.
+     * @return Token ID or 0 if not exist
+     */
     public Integer get(String token)
     {
 

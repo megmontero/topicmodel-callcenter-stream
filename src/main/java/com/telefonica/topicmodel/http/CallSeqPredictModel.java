@@ -10,9 +10,18 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.Logger;
 
+/**
+ * Class to do a request to Tensorflow serving model.
+ */
 public class CallSeqPredictModel {
     static final Logger logger = Logger.getLogger(CallSeqPredictModel.class);
 
+    /**
+     * Do a request to tensorflow serving model and return result.
+     * @param url URL of tensorflow serving service.
+     * @param input Input with sequence.
+     * @return Prediction of Tensorflow Serving model.
+     */
     public static TfModelOutput call(String url, TfModelInput input)
     {
         CloseableHttpClient client = HttpClients.createDefault();

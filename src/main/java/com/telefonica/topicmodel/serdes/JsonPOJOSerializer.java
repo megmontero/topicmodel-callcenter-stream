@@ -7,6 +7,10 @@ import org.apache.kafka.common.serialization.Serializer;
 
 import java.util.Map;
 
+/**
+ * Class for serialize POJO Class to Byte
+ * @param <T>
+ */
 public class JsonPOJOSerializer<T> implements Serializer<T> {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -16,10 +20,21 @@ public class JsonPOJOSerializer<T> implements Serializer<T> {
     public JsonPOJOSerializer() {
     }
 
+    /**
+     * Serializer configure method.
+     * @param props
+     * @param isKey
+     */
     @Override
     public void configure(Map<String, ?> props, boolean isKey) {
     }
 
+    /**
+     * Serializer from POJO Class to Json Bytes.
+     * @param topic key
+     * @param data POJO Object
+     * @return Byte array
+     */
     @Override
     public byte[] serialize(String topic, T data) {
         if (data == null)
@@ -31,7 +46,9 @@ public class JsonPOJOSerializer<T> implements Serializer<T> {
             throw new SerializationException("Error serializing JSON message", e);
         }
     }
-
+    /**
+     * Needed by serializer.
+     */
     @Override
     public void close() {
     }

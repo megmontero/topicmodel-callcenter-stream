@@ -14,14 +14,21 @@ import org.apache.kafka.streams.StreamsBuilder;
 import org.apache.kafka.streams.kstream.Consumed;
 import org.apache.kafka.streams.kstream.KStream;
 import org.apache.kafka.streams.kstream.Produced;
-import org.apache.kafka.streams.kstream.ValueMapper;
 
-import java.util.HashMap;
-import java.util.Map;
 
+/**
+ *  Stream to get tokens list from call text.
+ */
 public class StreamTokenizer {
     private static Serde<Token> tokenSerde;
     private static  Serde<Call> callSerde;
+
+    /**
+     *
+     * @param builder StreamBuilder.
+     * @param inputTopic Calls topic.
+     * @param outputTopic Tokens topic.
+     */
     static public void create_stream(final StreamsBuilder builder, final String inputTopic, final String outputTopic)
     {
         tokenSerde = JsonPOJOSerdes.getObjectSerde(Token.class);

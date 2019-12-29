@@ -8,18 +8,26 @@ import org.apache.kafka.common.serialization.Deserializer;
 
 import java.util.Map;
 
+/**
+ * Deserializer from JSON string to POJO Class.
+ * @param <T> POJO Class
+ */
 public class JsonPOJODeserializer<T> implements Deserializer<T> {
     private ObjectMapper objectMapper = new ObjectMapper();
 
     private Class<T> tClass;
 
     /**
-     * Default constructor needed by Kafka
+     * Default constructor needed by Kafka.
      */
     public JsonPOJODeserializer() {
     }
 
-    @SuppressWarnings("unchecked")
+    /**
+     * Deserializer configure method.
+     * @param props
+     * @param isKey
+     */
     @Override
     public void configure(Map<String, ?> props, boolean isKey) {
         tClass = (Class<T>) props.get("JsonPOJOClass");
@@ -28,6 +36,12 @@ public class JsonPOJODeserializer<T> implements Deserializer<T> {
         objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
     }
 
+    /**
+     * Deserialize method.
+     * @param topic key-
+     * @param bytes message bytes.
+     * @return Object of T POJO Class.
+     */
     @Override
     public T deserialize(String topic, byte[] bytes) {
         if (bytes == null)
@@ -42,6 +56,10 @@ public class JsonPOJODeserializer<T> implements Deserializer<T> {
 
         return data;
     }
+
+    /**
+     * Needed by Deserializer.
+     */
 
     @Override
     public void close() {

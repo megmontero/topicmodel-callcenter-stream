@@ -18,12 +18,25 @@ import org.apache.log4j.Logger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-
+/**
+ * Stream to get Sequence from list of tokens and with vocabulary.
+ *
+ * Do not use a different view, using processor API instead.
+ */
 public class StreamSequencerNew {
     private static Serde<Token> tokenSerde;
     private static Serde<Sequence> sequenceSerde;
     final private static Logger logger = Logger.getLogger(StreamSequencer.class);
     private final static String VOCABULARY_STORE= "vocabulary-store";
+
+    /**
+     * Create stream for get sequence from Tokens topics.
+     * @param builder Stream builder
+     * @param vocabularyTopic Vocabulary topic to get id of words.
+     * @param inputTopic Tokens topic.
+     * @param outputTopic Sequence topic.
+     * @param seguenceLenght Sequence Lenght.
+     */
     static public void create_stream(final StreamsBuilder builder, final String vocabularyTopic, final String inputTopic,
                                      final String outputTopic, int seguenceLenght)
     {

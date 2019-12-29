@@ -11,7 +11,9 @@ import org.apache.log4j.Logger;
 
 import java.util.List;
 
-
+/**
+ * Laucher of microservice Predicter
+ */
 public class PredicterLauncher {
 
     static Config config = ConfigFactory.load();
@@ -23,6 +25,11 @@ public class PredicterLauncher {
     static final List<String> labels = config.getStringList("modelBajaFactura.modelLabels");
 
     static final Logger logger = Logger.getLogger(PredicterLauncher.class);
+
+    /**
+     * main class to start microservice Predicter
+     * @param args
+     */
     public static void main(String[] args) {
 
         BasicConfigurator.configure();

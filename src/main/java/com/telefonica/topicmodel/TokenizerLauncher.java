@@ -9,12 +9,20 @@ import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import com.telefonica.topicmodel.streamprocess.StreamTokenizer;
 
+/**
+ * Laucher of microservice Tokenizer.
+ */
 public class TokenizerLauncher {
     static Config config = ConfigFactory.load();
     static final String inputTopic = config.getString("tokenizer.inputTopic");
     static final String outputTopic = config.getString("tokenizer.outputTopic");
     static final Logger logger = Logger.getLogger(TokenizerLauncher.class);
     static final String applicationId = config.getString("tokenizer.applicationId");
+
+    /**
+     * main class to start microservice tokenizer
+     * @param args
+     */
     public static void main(String[] args) {
         BasicConfigurator.configure();
         final StreamConfig streamsConfiguration = new StreamConfig(applicationId);
