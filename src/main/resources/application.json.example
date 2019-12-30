@@ -20,11 +20,11 @@
     "bootstrapServers": "kfk1:9093,kfk2:9093,kfk3:9093",
     "securityProtocol": "SASL_PLAINTEXT",
     "saslMechanism": "SCRAM-SHA-256",
-    "saslJaas":"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"topic_model\" password=\"topic_pwd\";"
+    "saslJaas":"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"topic_model\" password=\"password\";"
   },
   "modelBajaFactura": {
     "modelId": "bajafactura",
-    "modelUrl": "http://modelbajafactura/v1/models/baja:predict",
+    "modelUrl": "http://bajafacturamodel/v1/models/baja:predict",
     "modelLabels": ["Baja", "Factura", "Resto"]
   }
 
