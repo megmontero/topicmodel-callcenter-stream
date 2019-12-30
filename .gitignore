@@ -3,3 +3,4 @@
 *.class
 *.jar
 .idea
+/src/main/resources/application.json
