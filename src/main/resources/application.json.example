@@ -1,0 +1,34 @@
+{
+  "tokenizer":{
+    "inputTopic": "CALLS",
+    "outputTopic": "TOKENS.CALLS",
+    "applicationId": "topic.model.tokenizer"
+  },
+  "sequencer":{
+    "inputTopic": "TOKENS.CALLS",
+    "outputTopic": "SEQUENCES.CALLS",
+    "vocabularyTopic": "TBL.VOCABULARY.CALLS",
+    "applicationId": "topic.model.sequencer",
+    "sequenceLenght": 866
+  },
+  "predicter": {
+    "inputTopic": "SEQUENCES.CALLS",
+    "outputTopic": "TOPICS.CALLS",
+    "applicationId": "topic.model.predicter"
+  },
+  "kafkaClient": {
+    "bootstrapServers": "kfk1:9093,kfk2:9093,kfk3:9093",
+    "securityProtocol": "SASL_PLAINTEXT",
+    "saslMechanism": "SCRAM-SHA-256",
+    "saslJaas":"org.apache.kafka.common.security.scram.ScramLoginModule required username=\"topic_model\" password=\"topic_pwd\";"
+  },
+  "modelBajaFactura": {
+    "modelId": "bajafactura",
+    "modelUrl": "http://modelbajafactura/v1/models/baja:predict",
+    "modelLabels": ["Baja", "Factura", "Resto"]
+  }
+
+
+
+
+}
