@@ -1,5 +1,5 @@
 # topicmodel-callcenter-stream
-Servicios de Kafka Streams para el TFM modelización de temas de llamadas en tiempo real. El código aquí 
+Servicios de Kafka Streams para el TFM "Modelización de temas de llamadas en tiempo real" presentado en la UOC. El código aquí 
 presentado forma el *core* de la capa de *streaming* del proyecto. 
 
 ![Arquitectura microservicios](images/micro-arch-v3.png "Arquitectura de microservicios")
