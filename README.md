@@ -2,6 +2,10 @@
 Servicios de Kafka Streams para el TFM modelización de temas de llamadas en tiempo real. El código aquí 
 presentado forma el *core* de la capa de *streaming* del proyecto. 
 
+![Arquitectura microservicios](images/micro-arch-v3.png "Arquitectura de microservicios")
+
+
+
 La documentación completa del TFM está accesible en https://github.com/...
 
 Los servicios contenidos en este código son: 
