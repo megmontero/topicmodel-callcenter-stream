@@ -1,0 +1,8 @@
+com.telefonica.topicmodel
+com.telefonica.topicmodel.config
+com.telefonica.topicmodel.http
+com.telefonica.topicmodel.model
+com.telefonica.topicmodel.nlp
+com.telefonica.topicmodel.serdes
+com.telefonica.topicmodel.streamprocess
+com.telefonica.topicmodel.view
