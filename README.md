@@ -48,7 +48,7 @@ de la llamada y cuyo cuerpo un objeto *json* con los siguientes campos:
 ## Sequencer
 Este microservicio toma como entrada la salida del microservicio anterior y a partir de la lista de *tokens* devuelve una secuencia de tamaño fijo determinado *T*. Para ello, utiliza un diccionario en el que cada *token* se corresponde con un número, utilizando el *0* para *tokens* que no existan en este diccionario. Esta secuencia esta limitada a un tamaño determinado *T*, por lo que llamadas con un número mayor de *tokens* son recortadas y se utiliza *padding* por la izquierda para completar la secuencia de llamadas con un tamaño menor a *T*.
 
-El diccionario ha sido calculado sobre el conjunto de datos de  entrenamiento y contiene el vocabulario del modelo. Este diccionario contiene como clave todos los *tokens* posibles y como valores el identificador usado para cada *token*. La lectura del mismo se realiza desde el mismo bus, utilizando la funcionalidad *KTable* de \textit{Kafka Streams}.
+El diccionario ha sido calculado sobre el conjunto de datos de  entrenamiento y contiene el vocabulario del modelo. Este diccionario contiene como clave todos los *tokens* posibles y como valores el identificador usado para cada *token*. La lectura del mismo se realiza desde el mismo bus, utilizando la funcionalidad *KTable* de Kafka Streams.
 
 
 Una vez obtenida la secuencia de caracteres, esta se disponibiliza en un nuevo *topic* del bus. Además de por nuestro sistema, este valor puede ser consumido por otros microservicios o sistemas que tengan como objetivo aplicar diferentes modelos a las secuencias obtenidas.
@@ -73,7 +73,7 @@ Además se apoyará en un topic compacto que no tendrá  límite de retención, 
 
 Este último microservicio tiene como entrada el *topic* generado por **Sequencer** y a partir del mismo realiza una llamada a **tf-BajaFactura**. Una vez obtenidas las predicciones, las enriquece con las etiquetas necesarias. Además en el caso de existir un atributo de control comprueba si la predicción ha sido correcta, esto nos servirá para validar la eficiencia del modelo a lo largo del tiempo. 
 
-Como podemos observar, es el único microservicio que tiene una dependencia con otro (*tf-BajaFactura*), sin embargo la API de un modelo implementado con Tensorflow Serving \cite{tfserving} es siempre idéntica. Esto provoca que la llamada no varíe aunque cambie el modelo. Además, en el servicio **Predicter**, el número de clases y las etiquetas de las mismas son configurables , pudiendo  reutilizarse este microservicio para cualquier servicio predictivo desplegado mediante  Tensorflow Serving.
+Como podemos observar, es el único microservicio que tiene una dependencia con otro (*tf-BajaFactura*), sin embargo la API de un modelo implementado con Tensorflow Serving es siempre idéntica. Esto provoca que la llamada no varíe aunque cambie el modelo. Además, en el servicio **Predicter**, el número de clases y las etiquetas de las mismas son configurables , pudiendo  reutilizarse este microservicio para cualquier servicio predictivo desplegado mediante  Tensorflow Serving.
 
 La salida de este microservicio es publicada en un nuevo *topic* en el bus, esta información puede ser de utilidad para diversos sistemas que quieran realizar analítica en función de la temática de las llamadas o que quieran visualizarla. Nosotros la usaremos en nuestra capa de servicio que describiremos en el siguiente capítulo.
 
